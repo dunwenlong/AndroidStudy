@@ -1,12 +1,14 @@
-Bundle
+1、Bundle
 对于Android开发者来说肯定非常眼熟，它经常出现在以下场合：
 （1）Activity状态数据的保存与恢复涉及到的两个回调：void onSaveInstanceState (Bundle outState)、void onCreate (Bundle savedInstanceState)
 （2）Fragment的setArguments方法：void setArguments (Bundle args)
 （3）消息机制中的Message的setData方法：void setData (Bundle data)
-Android的日志工具分为5个方法：
+
+2、Android的日志工具分为5个方法：
 Log.v()-->verbose; Log.d()-->debug; Log.i()-->info; Log.w()-->warn; Log.e()-->error;
 通常传入两个参数，第一个参数tag，用于对打印的信息进行过滤；
-活动
+
+3、活动
 （1）活动的创建
 重写父类的onCreate()方法，调用父类的super.onCreate(savedInstanceState); setContentview(R.layout.first_layout)方法用来设置布局。
 （2）活动的状态
@@ -30,7 +32,8 @@ singleInstance 一个活动一个栈
 通过<activity>标签指定android:lanchMode属性来选择启动模式。
 （6）getClass.getSimpleName()来获取当前所在的类名
 （7）创建类管理器用户随时随地退出程序
-添加控件的点击事件
+
+4、添加控件的点击事件
 （1）使用匿名内部类的方法
     Button button1 = (Button) findViewById(R.id.button_1);
     button1.setOnClickListerer(new View.OnClickListerer(){
@@ -40,11 +43,14 @@ singleInstance 一个活动一个栈
 （2）使用内部类的方法，实现View.OnClickListerer接口
 （3）主类实现View.OnClickListerer接口
 （4）在布局文件中为该View 设置 android: onClick属性，指定点击的方法名。
-在活动中使用Toast
+
+5、在活动中使用Toast
 Toast.makeText(FirstActivity.this, "toast显示的内容", Toast.LENGTH_SHORT).show;
-在活动中使用Menu
+
+6、在活动中使用Menu
 需要先新建一个menu的xml文件，然后重写onCreateOptionMenu()方法，和对应的点击事件onOptionItemSelected()方法。
-活动之间的跳转
+
+7、活动之间的跳转
 1、使用显示的Intent
 Intent itent = new Intent(FirsyActivity.this, SecondActivity.class);
 startActivity(itent);
@@ -57,7 +63,8 @@ startActivity(itent);
 Itent itent = new Itent(“action中的字符串”);
 startActivity(itent);
 Intent.setData()方法主要用于指定当前Intent正在操作的数据，而这些数据通常都是以字符串的形式传入到Uri.parse()方法中解析生成。
-活动之间的数据传递
+
+8、活动之间的数据传递
 	1、 向下一个活动中传递数据
 在原活动中itent.putExtra(“键”，“对应得内容”),跳转到的活动中使用：
 Itent itent = getIntent(); //获取用于启动活动的Itent
@@ -70,7 +77,8 @@ Itent.putExtra(“键”，内容)；
 SetResult(RESULT_OK, itent)//第一个参数用于向上一个活动返回处理结果
 跳转到的活动销毁之后，会回调到原活动的onActivityResult()方法，需要重写该方法。包含三个参数请求码，处理结果，带有数据的Itent.
 ListView的简单用法
-数组中的数据是无法直接传递给ListView，我们需要借用适配器来传递数据。适配器是数据和视图之间的桥梁。
+
+9、数组中的数据是无法直接传递给ListView，我们需要借用适配器来传递数据。适配器是数据和视图之间的桥梁。
 ArrarAdapter<String> adapter = new ArrayAdapter<String>(ManiActivity.this, R.layout.simple_list_item_1, data);
 ListView listview = （Listview）findViewById(R.id.list_view);
 listview.setAdapter(adapter)
@@ -86,8 +94,9 @@ public void onItemClick(){
 
 });
 
-广播
+10、广播
 标准广播，有序广播
-在子线程中更新UI
+
+11、在子线程中更新UI
 首先新建一个Handler对象，并在里面重写handleMessage()方法对子线程中通过sendMessage发送的消息进行处理，也即更新UI.
 android的异步消息处理主要有四部分组成 Message、Handler、MessageQueue和Looper组成。
