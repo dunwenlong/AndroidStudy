@@ -100,3 +100,13 @@ public void onItemClick(){
 11、在子线程中更新UI
 首先新建一个Handler对象，并在里面重写handleMessage()方法对子线程中通过sendMessage发送的消息进行处理，也即更新UI.
 android的异步消息处理主要有四部分组成 Message、Handler、MessageQueue和Looper组成。
+
+12、AsyncTask对消息进行异步处理
+经常重写的方法：
+onPreExecute();
+onInBackground(Params...)
+//这个方法中的所有代码会在子线程中运行，在这里处理耗时任务
+onProgressUpdate(Progress...) 进行UI操作
+onPostExecute(Result) 执行任务的收尾工作
+
+13、
