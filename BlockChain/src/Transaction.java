@@ -7,20 +7,25 @@ import java.util.ArrayList;
  * @time 2020/6/27 15:19
  */
 public class Transaction {
-    public String transactionId; // this is also the hash of the transaction.
-    public PublicKey sender; // senders address/public key.
-    public PublicKey reciepient; // Recipients address/public key.
+    /** this is also the hash of the transaction. */
+    public String transactionId;
+    /** senders address/public key. */
+    public PublicKey sender;
+    /** Recipients address/public key. */
+    public PublicKey recipient;
     public float value;
-    public byte[] signature; // this is to prevent anybody else from spending funds in our wallet.
+    /** this is to prevent anybody else from spending funds in our wallet. */
+    public byte[] signature;
 
-    public ArrayList<TransactionInput> inputs = new ArrayList<TransactionInput>();
+    public ArrayList<TransactionInput> inputs;
     public ArrayList<TransactionOutput> outputs = new ArrayList<TransactionOutput>();
+    /**A rough count of how many transactions have been generated*/
+    private static int sequence = 0;
+    /** Constructor: */
 
-    private static int sequence = 0; //A rough count of how many transactions have been generated
-    // Constructor:
     public Transaction(PublicKey from, PublicKey to, float value,  ArrayList<TransactionInput> inputs) {
         this.sender = from;
-        this.reciepient = to;
+        this.recipient = to;
         this.value = value;
         this.inputs = inputs;
     }
@@ -46,7 +51,7 @@ public class Transaction {
         //Generate transaction outputs:
         float leftOver = getInputsValue() - value; //get value of inputs then the left over change:
         transactionId = calulateHash();
-        outputs.add(new TransactionOutput( this.reciepient, value,transactionId)); //send value to recipient
+        outputs.add(new TransactionOutput( this.recipient, value,transactionId)); //send value to recipient
         outputs.add(new TransactionOutput( this.sender, leftOver,transactionId)); //send the left over 'change' back to sender
 
         //Add outputs to Unspent list
@@ -77,12 +82,12 @@ public class Transaction {
     }
 
     public void generateSignature(PrivateKey privateKey) {
-        String data = StringUtil.getStringFromKey(sender) + StringUtil.getStringFromKey(reciepient) + Float.toString(value)	;
+        String data = StringUtil.getStringFromKey(sender) + StringUtil.getStringFromKey(recipient) + Float.toString(value)	;
         signature = StringUtil.applyECDSASig(privateKey,data);
     }
 
     public boolean verifySignature() {
-        String data = StringUtil.getStringFromKey(sender) + StringUtil.getStringFromKey(reciepient) + Float.toString(value)	;
+        String data = StringUtil.getStringFromKey(sender) + StringUtil.getStringFromKey(recipient) + Float.toString(value)	;
         return StringUtil.verifyECDSASig(sender, data, signature);
     }
 
@@ -98,7 +103,7 @@ public class Transaction {
         sequence++; //increase the sequence to avoid 2 identical transactions having the same hash
         return StringUtil.applySha256(
                 StringUtil.getStringFromKey(sender) +
-                        StringUtil.getStringFromKey(reciepient) +
+                        StringUtil.getStringFromKey(recipient) +
                         Float.toString(value) + sequence
         );
     }

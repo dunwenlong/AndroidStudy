@@ -32,12 +32,15 @@ public class Wallet {
             throw new RuntimeException(e);
         }
     }
+
     public float getBalance() {
         float total = 0;
         for (Map.Entry<String, TransactionOutput> item: BlockChain.UTXOs.entrySet()){
             TransactionOutput UTXO = item.getValue();
-            if(UTXO.isMine(publicKey)) { //if output belongs to me ( if coins belong to me )
-                UTXOs.put(UTXO.id,UTXO); //add it to our list of unspent transactions.
+            if(UTXO.isMine(publicKey)) {
+                //if output belongs to me ( if coins belong to me )
+                UTXOs.put(UTXO.id,UTXO);
+                //add it to our list of unspent transactions.
                 total += UTXO.value ;
             }
         }

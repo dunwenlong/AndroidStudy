@@ -1,4 +1,4 @@
-package threadTest;
+package threadtest;
 
 /**
  * @author Dun Wenlong

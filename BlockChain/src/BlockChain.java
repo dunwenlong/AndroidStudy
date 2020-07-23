@@ -1,5 +1,3 @@
-import com.google.gson.GsonBuilder;
-
 import java.security.Security;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -79,7 +77,7 @@ public class BlockChain {
                     tempUTXOs.put(output.id, output);
                 }
 
-                if( currentTransaction.outputs.get(0).reciepient != currentTransaction.reciepient) {
+                if( currentTransaction.outputs.get(0).reciepient != currentTransaction.recipient) {
                     System.out.println("#Transaction(" + t + ") output reciepient is not who it should be");
                     return false;
                 }
@@ -109,7 +107,7 @@ public class BlockChain {
         genesisTransaction = new Transaction(coinbase.publicKey, walletA.publicKey, 100f, null);
         genesisTransaction.generateSignature(coinbase.privateKey);	 //manually sign the genesis transaction
         genesisTransaction.transactionId = "0"; //manually set the transaction id
-        genesisTransaction.outputs.add(new TransactionOutput(genesisTransaction.reciepient, genesisTransaction.value, genesisTransaction.transactionId)); //manually add the Transactions Output
+        genesisTransaction.outputs.add(new TransactionOutput(genesisTransaction.recipient, genesisTransaction.value, genesisTransaction.transactionId)); //manually add the Transactions Output
         UTXOs.put(genesisTransaction.outputs.get(0).id, genesisTransaction.outputs.get(0)); //its important to store our first transaction in the UTXOs list.
         System.out.println("Creating and Mining Genesis block... ");
         Block genesis = new Block("0");
